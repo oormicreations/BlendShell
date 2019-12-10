@@ -18,7 +18,7 @@ Extract it. In Blender, go to Edit->Preferences->Addons and click Install. Choos
 This addon is tested in Blender 2.80 and 2.81 on Linux Mint 19.2
 
 **Usage**
-* Create the seed shell by click the *Create Seed* button
+* Create the seed shell by clicking the *Create Seed* button
 * Adjust the size and position of the seed so that it sits inside your model.
 * Click *Create Shell* button
 * Click *Flip & Attach* button to finish.
