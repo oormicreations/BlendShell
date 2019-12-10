@@ -34,6 +34,9 @@ This addon is tested in Blender 2.80 and 2.81 on Linux Mint 19.2
 * *Drill length* : Keep it more than twice the wall thickness, so that you can see them and they penetrate the wall completely.
 * *Drill Sides* : Sides or vertices of the cap of the cylinders. 
 
+**Sample Model**
+A sample blend file is provided with the addon to test it out. This tool is highly dependent on the geometry and size of the models. You will need to adjust the parameters for each model. Units may also affect the working of this tool. The sample file has everything set right for use with default parameters.
+
 **Known Issues**
 * Very low poly objects (such as a cube with 6 polys) are not suitable here. The collisions are not detected and the seed grows through the object.
 * If some part of the seed remains outside the object, it keeps growing outside till the number of iterations are over. This can be very time consuming and annoying because it cannot be stopped. Kill blender if it happens.
