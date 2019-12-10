@@ -18,12 +18,14 @@ Extract it. In Blender, go to Edit->Preferences->Addons and click Install. Choos
 This addon is tested in Blender 2.80 and 2.81 on Linux Mint 19.2
 
 **Usage**
+
 * Create the seed shell by clicking the *Create Seed* button
 * Adjust the size and position of the seed so that it sits inside your model.
 * Click *Create Shell* button
 * Click *Flip & Attach* button to finish.
 
 **Parameters**
+
 * *Seed Size* : Drag or enter the value to change the size of the seed. Ideally it should be big enough to fit inside the broadest part of the model. The seed should not come out of the model from any side. Also leave a margin that is somewhat greater than the wall thickness.
 * *Seed Divisions* : Number of subdivisions in the seed mesh. A value of 2 or 3 should work. Very high values may crash Blender, if you try to darg it. Some big models may need high number of initial subdivisions.
 * *Minimum Thickness* : This is the thickness of the wall. Any part of the model thinner than this value remains untouched.
@@ -37,13 +39,23 @@ This addon is tested in Blender 2.80 and 2.81 on Linux Mint 19.2
 * *Drill Sides* : Sides or vertices of the cap of the cylinders. 
 
 **Sample Model**
+
 A sample blend file is provided with the addon to test it out. This tool is highly dependent on the geometry and size of the models. You will need to adjust the parameters for each model. Units may also affect the working of this tool. The sample file has everything set right for use with default parameters.
 
 **Known Issues**
+
 * Very low poly objects (such as a cube with 6 polys) are not suitable here. The collisions are not detected and the seed grows through the object.
 * If some part of the seed remains outside the object, it keeps growing outside till the number of iterations are over. This can be very time consuming and annoying because it cannot be stopped. Kill blender if it happens.
 * You need to select the model when you do any action. The addon will remind you to select the model first, but for some actions, it simply throws an error message. If it happens, just select the model and try again.
 * Too many seed divisions will crash or freeze blender. Especially if you drag out the value. A new seed is created for each change and if there are too many subdivisions, blender cannot keep up. Try entering the required value directly by typing in and keep it as low as possible.
 
 **Other uses**
+
 It can be used as a remeshing tool if you set the wall thickness very low (e.g. 0.1). A low poly replica of the high poly model can be obtained.
+
+**Misc Info**
+
+This plugin has been released under MIT license, which means it is free for any kind of use and modification, but has no warranties or liabilities. Please read the license before you download and use it. 
+
+Created by : Oormi Creations. 
+First release : December 2019.
