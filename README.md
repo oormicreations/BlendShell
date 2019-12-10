@@ -2,7 +2,7 @@
 A Blender plugin for making hollow models suitable for 3D printing.
 It creates an inner shell within the model which is attached to the model making it hollow. The wall thickness can be specified. This brings down the cost of printing as less material is needed. It also cuts down the time for printing. Unlike the shell/solidify modifier, it does not deform the thin parts of the model. It is especially useful for sculpted organic models.
 You can control the accuracy and density of the shell.
-The addon has an utility to create drills and make holes in the hollow model.
+The addon has a utility to create drills and make holes in the hollow model.
 
 **Intro Video**
 
