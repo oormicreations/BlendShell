@@ -99,8 +99,18 @@ It can be used as a remeshing tool if you set the wall thickness very low (e.g. 
 
 This plugin has been released under MIT license, which means it is free for any kind of use and modification, but has no warranties or liabilities. Please read the license before you download and use it. 
 
-**Created by**
+**About**
 
-Oormi Creations. 
+
+---
+
+A FOSS Project by Oormi Creations
+
+http://oormi.in
+
+oormicreations@gmail.com
+
+
+![logo](https://oormi.in/software/cbp/images/OormiLogo.png)
 
 December 2019.
