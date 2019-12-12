@@ -59,15 +59,18 @@ def printconsole(data):
                 bpy.ops.console.scrollback_append(override, text=str(data), type="OUTPUT") 
 
 def Create_Seed(div, dia):
+
     seed = bpy.data.objects.get("Seed.001")
     if seed is not None:
         bpy.ops.object.select_all(action='DESELECT')
         seed.select_set(True)
+        bpy.context.scene.cursor.location = seed.location
         bpy.ops.object.delete()
         
-    bpy.ops.mesh.primitive_ico_sphere_add(subdivisions=div, radius=dia/2.0)
+    bpy.ops.mesh.primitive_ico_sphere_add(subdivisions=div, radius=dia/2.0, location=bpy.context.scene.cursor.location)
     seed = bpy.context.selected_objects[0]
     seed.name = "Seed.001"
+    
     #printconsole("Seed created")
     
 def On_Seedsz_Changed(self, context):
@@ -87,13 +90,13 @@ class CSH_OT_CCreateShell(bpy.types.Operator):
         scene = context.scene
         bstool = scene.bs_tool
         
-        seedsz = bstool.bs_seedsz#5.0
-        seeddiv = bstool.bs_seeddiv#2
-        thickness = bstool.bs_thickness#3.5
-        dv = bstool.bs_dv#0.1
-        rdelay = bstool.bs_rdelay#10
-        pszmax = bstool.bs_pszmax#4
-        itrs = bstool.bs_itrs#600
+        seedsz = bstool.bs_seedsz
+        seeddiv = bstool.bs_seeddiv
+        thickness = bstool.bs_thickness
+        dv = bstool.bs_dv
+        rdelay = bstool.bs_rdelay
+        pszmax = bstool.bs_pszmax
+        itrs = bstool.bs_itrs
 
         seed = bpy.data.objects.get("Seed.001")
         if seed == None:
@@ -120,6 +123,11 @@ class CSH_OT_CCreateShell(bpy.types.Operator):
         printconsole(svol)
 
         #return{'FINISHED'}
+        
+        #checks
+        if(dv>=thickness):
+            ShowMessageBox("Step size should be less than minimum thickness.")
+            return{'FINISHED'}
     
         #seed.show_wire = True
         #seed.show_all_edges = True
@@ -262,6 +270,10 @@ class CDH_OT_CDrillHoles(bpy.types.Operator):
     bl_label = "Drill Holes"
     bl_description = "Make holes in hollow model"
     
+    @classmethod
+    def poll(self,context):
+        return context.object is not None    
+
     def execute(self, context):
 
         scene = context.scene
@@ -280,11 +292,19 @@ class CDH_OT_CDrillHoles(bpy.types.Operator):
         
         drills = [obj for obj in bpy.data.objects if obj.name.startswith("Drill")]
         
+        if len(drills) < 1:
+            ShowMessageBox("Please create some drills, position them and try again") 
+            return{'FINISHED'}
+                
         for d in drills:
             printconsole(d.name)
             bpy.ops.object.modifier_add(type='BOOLEAN')
             bpy.context.object.modifiers["Boolean"].object = d
             bpy.ops.object.modifier_apply(apply_as='DATA', modifier="Boolean")
+            if bstool.bs_deldrills:
+                bpy.ops.object.select_all(action='DESELECT')
+                d.select_set(True)
+                bpy.ops.object.delete()
 
         printconsole ("Holes Drilled!")    
         return{'FINISHED'}          
@@ -340,8 +360,6 @@ class OBJECT_PT_BlendShellPanel(Panel):
         scene = context.scene
         bstool = scene.bs_tool
         
-        layout.label(text="test")
-        
         layout.operator("bscreate.seed", text = "Create Seed", icon='MESH_UVSPHERE')
         layout.prop(bstool, "bs_seedsz")
         layout.prop(bstool, "bs_seeddiv")
@@ -375,10 +393,44 @@ class OBJECT_PT_BlendShellPostPanel(bpy.types.Panel):
         layout.prop(bstool, "bs_drillsides")
         layout.operator("bscreate.drills", text = "Create Drills", icon='MESH_CYLINDER')
         layout.operator("bsdrill.holes", text = "Drill Holes", icon='TRIA_RIGHT')
+        layout.prop(bstool, "bs_deldrills")
         
-        row = layout.row()
+
+class OBJECT_PT_InfoPanel(Panel):
+    bl_label = "Info"
+    bl_idname = "OBJECT_PT_Info_Panel"
+    bl_category = "BlendShell"
+    bl_space_type = 'VIEW_3D'
+    bl_region_type = 'UI'
+    bl_context = "objectmode"
+
+
+    def draw(self, context):
+        layout = self.layout
+        scene = context.scene
+        bstool = scene.bs_tool
+        
+        layout.label(text = "Target Dimensions :")
+        if bstool.bs_target is not None:
+            mp = bstool.bs_target.data
+            bme = bmesh.new()
+            bme.from_mesh(mp)
+            vol = bme.calc_volume()
+            d = bstool.bs_target.dimensions
+            layout.label(text = str(d[0])[:8] + " x " + str(d[1])[:8] + " x " + str(d[2])[:8])
+            layout.label(text = "Volume = " + str(vol)[:12])
+        else:
+            layout.label(text = "Object not specified")
+        
+        layout.label(text = "Current Units : " + scene.unit_settings.system.capitalize()\
+         + " - " + scene.unit_settings.length_unit.capitalize())
+        layout.label(text = "Unit Scale = " + str(scene.unit_settings.scale_length)[:8])
+        layout.label(text = "Unit settings are available")
+        layout.label(text = "in Scene tab in Properties window")
+
+        row = layout.row(align=True)
         row.operator("wm.url_open", text="Help | Source | Updates", icon='QUESTION').url = "https://github.com/oormicreations/BlendShell"
-        
+       
 class CCProperties(PropertyGroup):
     
     bs_target: PointerProperty(
@@ -399,7 +451,7 @@ class CCProperties(PropertyGroup):
     bs_seedsz: FloatProperty(
         name = "Seed Size",
         description = "Initial size of the seed shell",
-        default = 5.0,
+        default = 10.0,
         precision = 6,
         min=0.001,
         max=100000.0,
@@ -418,7 +470,7 @@ class CCProperties(PropertyGroup):
     bs_dv: FloatProperty(
         name = "Expansion Step",
         description = "Step size for each iteration of seed expansion",
-        default = 0.1,
+        default = 0.35,
         precision = 6,
         step=1,
         unit= 'LENGTH',
@@ -444,7 +496,7 @@ class CCProperties(PropertyGroup):
     bs_itrs: IntProperty(
         name = "Iterations",
         description = "Maximum number of iterations",
-        default = 600,
+        default = 200,
         min=1,
         max=100000        
       )
@@ -467,7 +519,7 @@ class CCProperties(PropertyGroup):
     bs_drillsz: FloatProperty(
         name = "Drill Length",
         description = "Length of the drills",
-        default = 10.0,
+        default = 15.0,
         unit= 'LENGTH',
         precision = 6,
         min=0.1,
@@ -480,6 +532,16 @@ class CCProperties(PropertyGroup):
         min=3,
         max=128
     )
+    bs_deldrills: BoolProperty(
+        name = "Delete Drills",
+        description = "Delete the drills after making holes",
+        default = True
+    )
+#    bs_units: FloatProperty(
+#        name = "Unit Scale",
+#        description = "Current units scale.\nCheck the Scene Properties tab to set the units",
+#        default = 1.0
+#    )
        
     
 # ------------------------------------------------------------------------
@@ -494,7 +556,8 @@ classes = (
     CDH_OT_CDrillHoles,
     CCProperties,
     OBJECT_PT_BlendShellPanel,
-    OBJECT_PT_BlendShellPostPanel
+    OBJECT_PT_BlendShellPostPanel,
+    OBJECT_PT_InfoPanel
 )
 
 def register():
