@@ -19,24 +19,43 @@ This addon is tested in Blender 2.80 and 2.81 on Linux Mint 19.2
 
 **Usage**
 
-* Create the seed shell by clicking the *Create Seed* button
+* Create the seed shell by clicking the *Create Seed* button.
 * Adjust the size and position of the seed so that it sits inside your model.
-* Click *Create Shell* button
+* Pick your model from the drop down box.
+* Click *Create Shell* button.
 * Click *Flip & Attach* button to finish.
+
+*It is recommended to test this addon on the provided blend file to get a feel of how the parameters work.*
 
 **Parameters**
 
 * *Seed Size* : Drag or enter the value to change the size of the seed. Ideally it should be big enough to fit inside the broadest part of the model. The seed should not come out of the model from any side. Also leave a margin that is somewhat greater than the wall thickness.
-* *Seed Divisions* : Number of subdivisions in the seed mesh. A value of 2 or 3 should work. Very high values may crash Blender, if you try to darg it. Some big models may need high number of initial subdivisions.
+*Warning: Clicking the Create Seed button or changing the seed size or divisions after creating the shell will reset the seed and you will lose the shell*
+
+* *Seed Divisions* : Number of subdivisions in the seed mesh. A value of 2 or 3 should work. Some big models may need high number of initial subdivisions.
+*Warning: Very high number of divisions may crash blender. While dragging the value it will be limited to 4, but you can enter a greater number via keyboard*
+
 * *Minimum Thickness* : This is the thickness of the wall. Any part of the model thinner than this value remains untouched.
-* *Step* : Smaller values produce more accurate results, but will slow it down. This is the distance the shell grows in each iteration.
+
+* *Step* : This is the distance the shell grows in each iteration.
+*Note: Smaller values produce more accurate results, but will slow it down. This value should be less than the minimum thickness, lets say about a tenth of it.*
+
 * *Redraw Delay* : Controls how often the screen is refreshed.
+
 * *Max Triangle Area* : The seed mesh expands, and so do the triangles. When they reach this area, they are subdivided. A smaller value will produce a dense mesh. A larger value will produce a low poly shell.
-* *Iterations* : The number of times the expansion of the seed happens. A low value may leave some volume unfilled. In that case simply click the *Create Shell* button again, it expands the existing shell. A high value may cause the shell to fold within itself, which is not good.
+
+* *Iterations* : The number of times the expansion of the seed happens. 
+*Note : A low value may leave some volume unfilled. In that case simply click the *Create Shell* button again, it expands the existing shell. A high value may cause the shell to fold within itself, which is not good.*
+
 * *Drill Count* : Number of drills (Cylinders) you need. Usually specified by the 3D printer. Bigger models need more holes.
+
 * *Hole size* : The diameter of the holes. Usually specified by the 3D printer. Bigger models need bigger holes.
+
 * *Drill length* : Keep it more than twice the wall thickness, so that you can see them and they penetrate the wall completely.
+
 * *Drill Sides* : Sides or vertices of the cap of the cylinders. 
+
+* *Delete Drills* : Deletes the drills after making holes.
 
 **Sample Model**
 
@@ -45,9 +64,8 @@ A sample blend file is provided with the addon to test it out. This tool is high
 **Known Issues**
 
 * Very low poly objects (such as a cube with 6 polys) are not suitable here. The collisions are not detected and the seed grows through the object.
-* If some part of the seed remains outside the object, it keeps growing outside till the number of iterations are over. This can be very time consuming and annoying because it cannot be stopped. Kill blender if it happens.
-* You need to select the model when you do any action. The addon will remind you to select the model first, but for some actions, it simply throws an error message. If it happens, just select the model and try again.
-* Too many seed divisions will crash or freeze blender. Especially if you drag out the value. A new seed is created for each change and if there are too many subdivisions, blender cannot keep up. Try entering the required value directly by typing in and keep it as low as possible.
+* If some part of the seed remains outside the object, it keeps growing outside till the number of iterations are over. It should stop as soon as the volume of the seed is greater than the volume of the object.
+* If there is no active object, it can throw an error or can disable a button. This can happen for example when you delete something and no object is active. Just select your model and continue.
 
 **Other uses**
 
@@ -57,5 +75,8 @@ It can be used as a remeshing tool if you set the wall thickness very low (e.g. 
 
 This plugin has been released under MIT license, which means it is free for any kind of use and modification, but has no warranties or liabilities. Please read the license before you download and use it. 
 
-Created by : Oormi Creations. 
-First release : December 2019.
+**Created by**
+
+Oormi Creations. 
+
+December 2019.
