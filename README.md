@@ -13,6 +13,7 @@ https://www.youtube.com/watch?v=mFByQwsRA8U
 
 Download the zip file from *Releases* page here. 
 https://github.com/oormicreations/BlendShell/releases
+
 Extract it. In Blender, go to Edit->Preferences->Addons and click Install. Choose the blendshell-xx.py file. Enable the Addon. You should see the UI in the vertical tabs in 3D view. (Visible only in *Object Mode*)
 
 This addon is tested in Blender 2.80 and 2.81 on Linux Mint 19.2
@@ -35,6 +36,8 @@ This addon is tested in Blender 2.80 and 2.81 on Linux Mint 19.2
 * *Seed Divisions* : Number of subdivisions in the seed mesh. A value of 2 or 3 should work. Some big models may need high number of initial subdivisions.
 *Warning: Very high number of divisions may crash blender. While dragging the value it will be limited to 4, but you can enter a greater number via keyboard*
 
+* *Target Object* : Pick the model you wish to hollow out from the drop down list.
+
 * *Minimum Thickness* : This is the thickness of the wall. Any part of the model thinner than this value remains untouched.
 
 * *Step* : This is the distance the shell grows in each iteration.
@@ -56,6 +59,27 @@ This addon is tested in Blender 2.80 and 2.81 on Linux Mint 19.2
 * *Drill Sides* : Sides or vertices of the cap of the cylinders. 
 
 * *Delete Drills* : Deletes the drills after making holes.
+
+* *Help|Source|Updates* : Brings you here.
+
+
+**Actions**
+
+* *Create Seed* : Creates a sphere, which is the seed that expands to fill the model volume.
+
+* *Create Shell* : Creates the shell. You can keep clicking this button till the seed fills the target model. You can also change the thickness or triangle area and click this button again to refine the shell.
+
+* *Flip & Attach* : Flips the normals of shell and joins it with your model. This effectively makes it hollow.
+
+* *Create Drills* : Creates cylinders with specified dimensions.
+
+* *Drill Holes* : Creates boolean of your model with the drills. In other words, drills the holes. Holes are needed to drain out the supporting material from inside of the printed model. The number of holes and their dia are specified by the printer and depends on the material.
+
+**Info Panel**
+
+The info panel displays some useful info such as dimensions, volume and units in use.
+
+The addon depends on correct unit settings. You can set the units from the *Scene Properties* tab in Properties window. If you are using Metric units and want to display dimensions in mm, you should set the unit scale to 0.001. For cm it should be 0.01 etc.
 
 **Sample Model**
 
