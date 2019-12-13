@@ -6,7 +6,7 @@ The addon has a utility to create drills and make holes in the hollow model.
 
 **Intro Video**
 
-https://www.youtube.com/watch?v=mFByQwsRA8U
+https://www.youtube.com/watch?v=uURBobfasxk
 
 
 **Installation**
