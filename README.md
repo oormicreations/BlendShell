@@ -87,7 +87,7 @@ A sample blend file is provided with the addon to test it out. This tool is high
 
 **Known Issues**
 
-* Very low poly objects (such as a cube with 6 polys) are not suitable here. The collisions are not detected and the seed grows through the object.
+* Blender may report a wrong volume when very low poly objects (such as a cube with 6 polys) are hollowed out.  
 * If some part of the seed remains outside the object, it keeps growing outside till the number of iterations are over. It should stop as soon as the volume of the seed is greater than the volume of the object.
 * If there is no active object, it can throw an error or can disable a button. This can happen for example when you delete something and no object is active. Just select your model and continue.
 
