@@ -9,6 +9,9 @@ The addon has a utility to create drills and make holes in the hollow model.
 https://www.youtube.com/watch?v=uURBobfasxk
 
 
+![logo](https://oormi.in/software/software_images/blendshellthumb01.jpg)
+
+
 **Installation**
 
 Download the zip file from *Releases* page here. 
