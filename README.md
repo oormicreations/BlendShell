@@ -17,9 +17,10 @@ https://www.youtube.com/watch?v=uURBobfasxk
 Download the zip file from *Releases* page here. 
 https://github.com/oormicreations/BlendShell/releases
 
-Extract it. In Blender, go to Edit->Preferences->Addons and click Install. Choose the blendshell-xx.py file. Enable the Addon. You should see the UI in the vertical tabs in 3D view. (Visible only in *Object Mode*)
+Extract it. In Blender, go to Edit->Preferences->Addons and click Install. Choose the blendshell.py file. Enable the Addon. You should see the UI in the vertical tabs in 3D view. (Visible only in *Object Mode*)
+Uninstall any previous versions before installing a new version.
 
-This addon is tested in Blender 2.80 and 2.81 on Linux Mint 19.2
+This addon is tested in Blender 2.80, 2.81, 2.82, 2.83.4, 2.9 and 2.92 on Linux Mint 19.2
 
 **Usage**
 
